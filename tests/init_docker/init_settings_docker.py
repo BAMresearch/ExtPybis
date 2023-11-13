@@ -13,10 +13,9 @@ if __name__ == "__main__":
     argParser.add_argument("-u", "--url", help="openbis url address")
 
     args = argParser.parse_args()
-    print(args)
 
     o = Interbis(args.url, verify_certificates=False)
-    o.connect_to_datastore(args.login, args.password)
+    o.connect_to_datastore(username=args.login, password=args.password)
 
     with open(settings_path, 'r') as file:
         default_settings = json.load(file)
