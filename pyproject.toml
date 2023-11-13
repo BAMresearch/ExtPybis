@@ -12,9 +12,6 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: MIT License",
 ]
-dependencies = [
-  "pgdumplib"
-]
 description = "Package extending the functionality of Pybis"
 license = {file = "LICENSE"}
 name = "extpybis"
