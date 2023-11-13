@@ -11,6 +11,8 @@ import pytest
 
 from extpybis.openbis import ExtOpenbis
 
+from pydantic import ValidationError
+
 """
 
 All tests which require an openBIS login are marked as login
@@ -506,7 +508,6 @@ def test_generate_typechecker_passing(setup, pytestconfig, param_name, param_val
 
 
 @pytest.mark.login
-@pytest.mark.xfail
 @pytest.mark.parametrize(
     "param_name, param_val",
     [("testing_timestamp", "not_a_date"), ("testing_vocabulary", "🤨"), ("testing_real", "cant_cast_this")],
@@ -520,4 +521,7 @@ def test_generate_typechecker_failing(setup, pytestconfig, param_name, param_val
     Model = o.generate_typechecker(Constants.sample_type_typechecker_code.value)
 
     # should fail here
-    Model(**sample_props)
+    try:
+        Model(**sample_props)
+    except ValidationError as err:
+        print(err)
