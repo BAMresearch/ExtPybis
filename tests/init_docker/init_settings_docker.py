@@ -1,4 +1,4 @@
-from extpybis.interbis import Interbis
+from extpybis.openbis import ExtOpenbis
 from pathlib import Path
 import json
 import argparse
@@ -14,7 +14,7 @@ if __name__ == "__main__":
 
     args = argParser.parse_args()
 
-    o = Interbis(args.url, verify_certificates=False)
+    o = ExtOpenbis(args.url, verify_certificates=False)
     o.connect_to_datastore(username=args.login, password=args.password)
 
     with open(settings_path, 'r') as file:

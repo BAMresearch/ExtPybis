@@ -9,7 +9,7 @@ import os
 import pandas as pd
 import pytest
 
-from extpybis.interbis import Interbis
+from extpybis.openbis import ExtOpenbis
 
 """
 
@@ -87,7 +87,7 @@ def setup(pytestconfig):
     chosen_runner = pytestconfig.getoption('--url')
 
     # o = Interbis(Constants.db_url.value)
-    o = Interbis(chosen_runner, verify_certificates=False)
+    o = ExtOpenbis(chosen_runner, verify_certificates=False)
 
     if login_val != 'no_cl_login' and password_val != 'no_cl_password':
         o.connect_to_datastore(username=login_val, password=password_val)
@@ -199,7 +199,7 @@ def setup(pytestconfig):
 def test_get_metadata_import_template(setup, pytestconfig, expected_df_import, write, sheet_name, path):
 
     chosen_runner = pytestconfig.getoption('--url')
-    o = Interbis(chosen_runner, verify_certificates=False)
+    o = ExtOpenbis(chosen_runner, verify_certificates=False)
 
     df = o.get_metadata_import_template(Constants.sample_type.value, write, sheet_name, path)
 
@@ -216,7 +216,7 @@ def test_get_metadata_import_template(setup, pytestconfig, expected_df_import, w
 def test_import_props_from_template(setup, pytestconfig):
 
     chosen_runner = pytestconfig.getoption('--url')
-    o = Interbis(chosen_runner, verify_certificates=False)
+    o = ExtOpenbis(chosen_runner, verify_certificates=False)
 
     read_sample_props = o.import_props_from_template(Filepaths.filled_out_sheet.value)
 
@@ -236,7 +236,7 @@ def test_import_props_from_template(setup, pytestconfig):
 def test_get_sample_dict(setup, pytestconfig):
 
     chosen_runner = pytestconfig.getoption('--url')
-    o = Interbis(chosen_runner, verify_certificates=False)
+    o = ExtOpenbis(chosen_runner, verify_certificates=False)
 
     sample_dict = o.get_sample_dict(Constants.testing_sample_identifier.value)
 
@@ -286,7 +286,7 @@ def test_get_sample_dict(setup, pytestconfig):
 def test_get_overview(setup, pytestconfig, level):
 
     chosen_runner = pytestconfig.getoption('--url')
-    o = Interbis(chosen_runner, verify_certificates=False)
+    o = ExtOpenbis(chosen_runner, verify_certificates=False)
 
     overview = o.get_overview(level=level, space=Constants.space.value, project=Constants.project.value, collection=Constants.collection.value)
 
@@ -307,7 +307,7 @@ def test_get_overview(setup, pytestconfig, level):
 def test_get_sample_type_properties(setup, pytestconfig):
 
     chosen_runner = pytestconfig.getoption('--url')
-    o = Interbis(chosen_runner, verify_certificates=False)
+    o = ExtOpenbis(chosen_runner, verify_certificates=False)
 
     df = o.get_sample_type_properties(Constants.sample_type.value)
 
@@ -328,7 +328,7 @@ def test_get_sample_type_properties(setup, pytestconfig):
 def test_create_sample_type(sample_code, sample_dict, pytestconfig):
 
     chosen_runner = pytestconfig.getoption('--url')
-    o = Interbis(chosen_runner, verify_certificates=False)
+    o = ExtOpenbis(chosen_runner, verify_certificates=False)
 
     o.create_sample_type(
         sample_code=sample_code[0], sample_prefix=sample_code[1], sample_properties=sample_dict)
@@ -359,7 +359,7 @@ def test_create_sample_type(sample_code, sample_dict, pytestconfig):
 def test_exists_in_datastore(setup, sample_name, output, pytestconfig):
 
     chosen_runner = pytestconfig.getoption('--url')
-    o = Interbis(chosen_runner, verify_certificates=False)
+    o = ExtOpenbis(chosen_runner, verify_certificates=False)
 
     if sample_name == "make_two_of_me":
         for _ in range(2):
@@ -384,7 +384,7 @@ def test_exists_in_datastore(setup, sample_name, output, pytestconfig):
 def test_get_sample_identifier(setup, pytestconfig):
 
     chosen_runner = pytestconfig.getoption('--url')
-    o = Interbis(chosen_runner, verify_certificates=False)
+    o = ExtOpenbis(chosen_runner, verify_certificates=False)
 
     fetched_sample_identifier = o.get_sample_identifier(Constants.testing_sample_name.value)
 
@@ -398,7 +398,7 @@ def test_get_sample_identifier(setup, pytestconfig):
 def test_get_collection_identifier(setup, pytestconfig, collection, should_pass):
 
     chosen_runner = pytestconfig.getoption('--url')
-    o = Interbis(chosen_runner, verify_certificates=False)
+    o = ExtOpenbis(chosen_runner, verify_certificates=False)
 
     if should_pass:
         collection_identifier = o.get_collection_identifier(collection)
@@ -412,7 +412,7 @@ def test_get_collection_identifier(setup, pytestconfig, collection, should_pass)
 def test_create_parent_hint(setup, pytestconfig):
 
     chosen_runner = pytestconfig.getoption('--url')
-    o = Interbis(chosen_runner, verify_certificates=False)
+    o = ExtOpenbis(chosen_runner, verify_certificates=False)
 
     o.create_parent_hint(sample_type=Constants.sample_type.value, label="testing label", parent_type=Constants.sample_type.value)
 
@@ -432,7 +432,7 @@ def test_create_parent_hint(setup, pytestconfig):
 def test_set_parent_hint(setup, pytestconfig):
 
     chosen_runner = pytestconfig.getoption('--url')
-    o = Interbis(chosen_runner, verify_certificates=False)
+    o = ExtOpenbis(chosen_runner, verify_certificates=False)
 
     comment_value = 'comment_comment'
 
@@ -470,7 +470,7 @@ def test_set_parent_hint(setup, pytestconfig):
 def test_generate_typechecker_passing(setup, pytestconfig, param_name, param_val):
 
     chosen_runner = pytestconfig.getoption('--url')
-    o = Interbis(chosen_runner, verify_certificates=False)
+    o = ExtOpenbis(chosen_runner, verify_certificates=False)
 
     sample = o.new_sample(
         type=Constants.sample_type_typechecker_code.value,
@@ -514,7 +514,7 @@ def test_generate_typechecker_passing(setup, pytestconfig, param_name, param_val
 def test_generate_typechecker_failing(setup, pytestconfig, param_name, param_val):
 
     chosen_runner = pytestconfig.getoption('--url')
-    o = Interbis(chosen_runner, verify_certificates=False)
+    o = ExtOpenbis(chosen_runner, verify_certificates=False)
 
     sample_props = {param_name: param_val}
 
