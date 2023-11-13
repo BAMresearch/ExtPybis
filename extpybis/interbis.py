@@ -9,9 +9,14 @@ from pybis import Openbis
 from pybis.entity_type import SampleType
 from typing import Optional, Union
 from pydantic import create_model, AnyUrl, validator
-from pydantic.main import ModelMetaclass
 from enum import Enum
 from dateutil.parser import parse
+
+# ModelMetaclass was moved in pydantic 2.0.0
+try:
+    from pydantic._internal._model_construction import ModelMetaclass
+except ImportError:
+    from pydantic.main import ModelMetaclass
 
 
 CONVERSION_DICT = {
