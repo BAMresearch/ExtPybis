@@ -52,3 +52,8 @@ jobs:
         shell: bash -l {0}
         run: |
           python3 -m tests.init_docker.init_settings_docker --login admin --password changeit --url https://localhost:8443/openbis/
+
+      - name: Run pytest
+        shell: bash -l {0}
+        run: |
+          python3 -m pytest tests/ --login admin --password changeit
