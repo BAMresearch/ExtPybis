@@ -496,7 +496,7 @@ def test_generate_typechecker_passing(setup, pytestconfig, param_name, param_val
     assert model_return.testing_timestamp == "2023-10-05 10:05"
     assert model_return.testing_vocabulary == str(param_val).upper()
 
-    sample_props = model_return.dict(exclude_unset=True)
+    sample_props = model_return.model_dump(exclude_unset=True)
 
     sample.set_props(sample_props)
 
