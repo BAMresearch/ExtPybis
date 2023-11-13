@@ -9,7 +9,7 @@ import os
 import pandas as pd
 import pytest
 
-from lebedigital.openbis.interbis import Interbis
+from extpybis.interbis import Interbis
 
 """
 
@@ -505,12 +505,12 @@ def test_generate_typechecker_passing(setup, pytestconfig, param_name, param_val
     created_samples_in_tests.append(sample.identifier)
 
 
-@ pytest.mark.login
-@ pytest.mark.xfail
-@ pytest.mark.parametrize("param_name, param_val",
-                          [('testing_timestamp', 'not_a_date'),
-                           ('testing_vocabulary', '🤨'),
-                           ('testing_real', 'cant_cast_this')])
+@pytest.mark.login
+@pytest.mark.xfail
+@pytest.mark.parametrize("param_name, param_val",
+                         [('testing_timestamp', 'not_a_date'),
+                          ('testing_vocabulary', '🤨'),
+                          ('testing_real', 'cant_cast_this')])
 def test_generate_typechecker_failing(setup, pytestconfig, param_name, param_val):
 
     chosen_runner = pytestconfig.getoption('--url')
@@ -520,7 +520,5 @@ def test_generate_typechecker_failing(setup, pytestconfig, param_name, param_val
 
     Model = o.generate_typechecker(Constants.sample_type_typechecker_code.value)
 
+    # should fail here
     Model(**sample_props)
-    # should fail here
-    # should fail here
-    # should fail here
