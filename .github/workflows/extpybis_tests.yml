@@ -1,0 +1,63 @@
+name: extpybis_tests
+on:
+  push:
+    branches-ignore:
+
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  CACHE_NUMBER: 0
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+
+    env:
+      OPENBIS_STATE_DIR: openbis/openbis_state
+
+    steps:
+      - name: Build openbis docker
+        run: |
+          mkdir -p $OPENBIS_STATE_DIR
+          docker run -d --name=openbis -e SERVER_HOST_PORT="localhost:443" -e GROUP_ID=12940 -e GROUP_NAME="docker-host-folder-group" -e CORE_PLUGINS='enabled-modules = dropbox-monitor, dataset-uploader, dataset-file-search, xls-import, openbis-sync, eln-lims, openbis-ng-ui, search-store' -v /home/$OPENBIS_STATE_DIR:/home/openbis/openbis_state -p 8443:443 --restart=always openbis/debian-openbis:latest
+          echo "Going to sleep for 40 seconds"
+          sleep 40 # Time for startup of the container, if some test fails with 503 Service unavailable or similar increase the number
+
+      - name: Checkout repo content
+        uses: actions/checkout@v2
+
+      - name: Setup Mambaforge
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+            miniforge-variant: Mambaforge
+            miniforge-version: latest
+            activate-environment: extpybis
+            use-mamba: true
+
+      - name: Set cache date
+        run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
+
+      - name: Check if environment cached
+        uses: actions/cache@v2
+        with:
+          path: "/usr/share/miniconda3/envs/extpybis"
+          key: conda-${{ hashFiles('environment.yml') }}-${{ env.DATE }}-${{ env.CACHE_NUMBER }}
+        id: cache
+
+      - name: Update environment
+        run: mamba env update -n extpybis -f environment.yml
+        if: steps.cache.outputs.cache-hit != 'true'
+
+      - name: Set default docker settings
+        shell: bash -l {0}
+        run: |
+          python3 -m tests.init_docker.init_settings_docker --login admin --password changeit --url https://localhost:8443/openbis/
+
+      - name: Run pytest
+        shell: bash -l {0}
+        run: |
+          python3 -m pytest tests/ --login admin --password changeit

@@ -1,0 +1,12 @@
+name: extpybis
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - pydantic
+  - pybis
+  - pandas
+  - xlsxwriter
+  - openpyxl
+  - ca-certificates
+  - openssl
