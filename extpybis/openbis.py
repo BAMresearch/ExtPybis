@@ -776,7 +776,7 @@ class ExtOpenbis(Openbis):
                 return parse(v).strftime("%Y-%m-%d %H:%M")
 
             validators = validators | {
-                f"{key}_validator": field_validator(key, pre=True, allow_reuse=True)(
+                f"{key}_validator": field_validator(key, mode="before")(
                     date_correct_format if val == "DATE" else timestamp_correct_format
                 )
                 for key, val in datetime_props.items()
@@ -788,7 +788,7 @@ class ExtOpenbis(Openbis):
                 return str(v).upper()
 
             validators = validators | {
-                f"{key}_validator": field_validator(key, pre=True, allow_reuse=True)(props_to_uppercase)
+                f"{key}_validator": field_validator(key, mode="before")(props_to_uppercase)
                 for key, val in controlledvocabulary_props.items()
             }
 
