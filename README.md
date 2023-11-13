@@ -2,7 +2,7 @@
 
 ## Motivation
 
-ExtPybis is a drop-in extension of the [Pybis](https://pypi.org/project/PyBIS/) library meant for improving data synchronisation with an openBIS datastore.
+ExtPybis is an extension of the [Pybis](https://pypi.org/project/PyBIS/) library meant for improving data synchronisation with an openBIS datastore.
 
 ## Glossary
 
@@ -54,9 +54,9 @@ ExtPybis also makes it easier to search for existing samples / objects and retri
 ### 1. Connecting to the database
 
 ```python
-from lebedigital.openbis.interbis import ExtPybis
+from extpybis.openbis import ExtOpenbis
 
-o = ExtPybis('https://yourdatabase.com') # Define an ExtPybis object with the url to your openBIS Database
+o = ExtOpenbis('https://yourdatabase.com') # Define an ExtPybis object with the url to your openBIS Database
 o.connect_to_datastore(username='name', password=None) # If username is not given, the username will be read from your account (windows/linux). If the password is not given, there will be a prompt.
 ```
 

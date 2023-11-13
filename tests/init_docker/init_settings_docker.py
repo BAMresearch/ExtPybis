@@ -4,7 +4,6 @@ import json
 import argparse
 
 if __name__ == "__main__":
-
     settings_path = Path(Path(__file__).parent.resolve(), "init_settings.json")
 
     argParser = argparse.ArgumentParser()
@@ -17,7 +16,7 @@ if __name__ == "__main__":
     o = ExtOpenbis(args.url, verify_certificates=False)
     o.connect_to_datastore(username=args.login, password=args.password)
 
-    with open(settings_path, 'r') as file:
+    with open(settings_path, "r") as file:
         default_settings = json.load(file)
 
     settings_sample = o.get_sample("/ELN_SETTINGS/GENERAL_ELN_SETTINGS")

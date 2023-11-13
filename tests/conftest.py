@@ -1,11 +1,8 @@
-import pytest
 
 
 def pytest_configure(config):
     # register an additional marker
-    config.addinivalue_line(
-        "markers", "login: mark test to only run when provided with login"
-    )
+    config.addinivalue_line("markers", "login: mark test to only run when provided with login")
 
 
 """
