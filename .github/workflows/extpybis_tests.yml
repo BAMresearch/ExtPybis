@@ -17,39 +17,39 @@ jobs:
       OPENBIS_STATE_DIR: openbis/openbis_state
 
   steps:
-        - name: build docker
-          run: |
-            mkdir -p $OPENBIS_STATE_DIR
-            ls -a
-            docker create --name=openbis -e SERVER_HOST_PORT="localhost:443" -e GROUP_ID=12940 -e GROUP_NAME="docker-host-folder-group" -e CORE_PLUGINS='enabled-modules = dropbox-monitor, dataset-uploader, dataset-file-search, xls-import, openbis-sync, eln-lims, openbis-ng-ui, search-store' -v /home/$OPENBIS_STATE_DIR:/home/openbis/openbis_state -p 8443:443 --restart=always openbis/debian-openbis:latest
-            docker start openbis
+    - name: build docker
+      run: |
+        mkdir -p $OPENBIS_STATE_DIR
+        ls -a
+        docker create --name=openbis -e SERVER_HOST_PORT="localhost:443" -e GROUP_ID=12940 -e GROUP_NAME="docker-host-folder-group" -e CORE_PLUGINS='enabled-modules = dropbox-monitor, dataset-uploader, dataset-file-search, xls-import, openbis-sync, eln-lims, openbis-ng-ui, search-store' -v /home/$OPENBIS_STATE_DIR:/home/openbis/openbis_state -p 8443:443 --restart=always openbis/debian-openbis:latest
+        docker start openbis
 
-        - name: checkout repo content
-          uses: actions/checkout@v2
+    - name: checkout repo content
+      uses: actions/checkout@v2
 
-        - name: Setup Mambaforge
-          uses: conda-incubator/setup-miniconda@v2
-          with:
-              miniforge-variant: Mambaforge
-              miniforge-version: latest
-              activate-environment: extpybis
-              use-mamba: true
+    - name: Setup Mambaforge
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+          miniforge-variant: Mambaforge
+          miniforge-version: latest
+          activate-environment: extpybis
+          use-mamba: true
 
-        - name: Set cache date
-          run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
+    - name: Set cache date
+      run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
 
-        - uses: actions/cache@v2
-          with:
-            path: "/usr/share/miniconda3/envs/extpybis"
-            key: conda-${{ hashFiles('environment.yml') }}-${{ env.DATE }}-${{ env.CACHE_NUMBER }}
-          id: cache
+    - uses: actions/cache@v2
+      with:
+        path: "/usr/share/miniconda3/envs/extpybis"
+        key: conda-${{ hashFiles('environment.yml') }}-${{ env.DATE }}-${{ env.CACHE_NUMBER }}
+      id: cache
 
-        - name: Update environment
-          run: mamba env update -n extpybis -f environment.yml
-          if: steps.cache.outputs.cache-hit != 'true'
+    - name: Update environment
+      run: mamba env update -n extpybis -f environment.yml
+      if: steps.cache.outputs.cache-hit != 'true'
 
-        - name: set default docker settings
-          shell: bash -l {0}
-          run: |
-            cd $GITHUB_WORKSPACE/tests/openbis_docker_setup/
-            python3 -m init_settings_docker --login admin --password changeit --url https://localhost:8443/openbis/
+    - name: set default docker settings
+      shell: bash -l {0}
+      run: |
+        cd $GITHUB_WORKSPACE/tests/openbis_docker_setup/
+        python3 -m init_settings_docker --login admin --password changeit --url https://localhost:8443/openbis/
