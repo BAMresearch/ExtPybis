@@ -1,0 +1,10 @@
+name: extpybis
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - pydantic[version='<2.0.0']
+  - pybis
+  - pandas
+  - ca-certificates
+  - openssl
