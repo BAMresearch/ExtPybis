@@ -6,5 +6,7 @@ dependencies:
   - pydantic[version='<2.0.0']
   - pybis
   - pandas
+  - xlsxwriter
+  - openpyxl
   - ca-certificates
   - openssl

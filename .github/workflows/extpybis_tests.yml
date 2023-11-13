@@ -24,6 +24,7 @@ jobs:
         run: |
           mkdir -p $OPENBIS_STATE_DIR
           docker run -d --name=openbis -e SERVER_HOST_PORT="localhost:443" -e GROUP_ID=12940 -e GROUP_NAME="docker-host-folder-group" -e CORE_PLUGINS='enabled-modules = dropbox-monitor, dataset-uploader, dataset-file-search, xls-import, openbis-sync, eln-lims, openbis-ng-ui, search-store' -v /home/$OPENBIS_STATE_DIR:/home/openbis/openbis_state -p 8443:443 --restart=always openbis/debian-openbis:latest
+          echo "Going to sleep for 40 seconds"
           sleep 40 # Time for startup of the container, if some test fails with 503 Service unavailable or similar increase the number
 
       - name: Checkout repo content
