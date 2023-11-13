@@ -8,7 +8,7 @@ import pandas as pd
 from pybis import Openbis
 from pybis.entity_type import SampleType
 from typing import Optional, Union
-from pydantic import create_model, AnyUrl, field_validator
+from pydantic import create_model, AnyUrl, field_validator, ConfigDict
 from enum import Enum
 from dateutil.parser import parse
 
@@ -792,10 +792,8 @@ class ExtOpenbis(Openbis):
                 for key, val in controlledvocabulary_props.items()
             }
 
-        class Config:
-            extra = "forbid"
-            use_enum_values = True
+        model_config = ConfigDict(extra="forbid", use_enum_values=True)
 
         return create_model(
-            "SampleType_Props_Validator", **property_function_input, __config__=Config, __validators__=validators
+            "SampleType_Props_Validator", **property_function_input, __config__=model_config, __validators__=validators
         )
