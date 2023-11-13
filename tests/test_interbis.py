@@ -39,12 +39,12 @@ class Constants(Enum):
 
 
 class Filepaths(Enum):
-    import_template: Path = Path(Path(__file__).parent.resolve(), '/test_files/gen_import_template.csv')
-    sample_properties: Path = Path(Path(__file__).parent.resolve(), '/test_files/gen_sample_properties.csv')
-    test_sheet: Path = Path(Path(__file__).parent.resolve(), '/test_files/test_sheet.xlsx')
-    init_settings: Path = Path(Path(__file__).parent.resolve(), '/test_files/init_settings.json')
-    excel_output: Path = Path(Path(__file__).parent.resolve(), '/test_files/output.xlsx')
-    filled_out_sheet: Path = Path(Path(__file__).parent.resolve(), '/test_files/filled_out_sheet.xlsx')
+    import_template: Path = Path(Path(__file__).parent.resolve(), 'test_files', 'gen_import_template.csv')
+    sample_properties: Path = Path(Path(__file__).parent.resolve(), 'test_files', 'gen_sample_properties.csv')
+    test_sheet: Path = Path(Path(__file__).parent.resolve(), 'test_files', 'test_sheet.xlsx')
+    init_settings: Path = Path(Path(__file__).parent.resolve(), 'test_files', 'init_settings.json')
+    excel_output: Path = Path(Path(__file__).parent.resolve(), 'test_files', 'output.xlsx')
+    filled_out_sheet: Path = Path(Path(__file__).parent.resolve(), 'test_files', 'filled_out_sheet.xlsx')
 
 
 test_results = {
