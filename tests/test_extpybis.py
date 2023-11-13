@@ -403,7 +403,7 @@ def test_get_collection_identifier(setup, pytestconfig, collection, should_pass)
         collection_identifier = o.get_collection_identifier(collection)
         assert collection_identifier == Constants.collection_id.value
     else:
-        with pytest.raises(ValueError) as e_info:
+        with pytest.raises(ValueError):
             collection_identifier = o.get_collection_identifier(collection)
 
 
