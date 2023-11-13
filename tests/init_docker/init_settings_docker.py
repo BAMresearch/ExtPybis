@@ -5,7 +5,7 @@ import argparse
 
 if __name__ == "__main__":
 
-    settings_path = Path("./init_settings.json")
+    settings_path = Path(Path(__file__).parent.resolve(), "init_settings.json")
 
     argParser = argparse.ArgumentParser()
     argParser.add_argument("-l", "--login", help="openbis login")
