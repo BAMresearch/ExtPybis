@@ -12,7 +12,7 @@ from pydantic import create_model, AnyUrl, validator
 from enum import Enum
 from dateutil.parser import parse
 
-# ModelMetaclass was moved in pydantic 2.0.0
+# ModelMetaclass was moved from main to _model_construction in pydantic 2.0.0
 try:
     from pydantic._internal._model_construction import ModelMetaclass
 except ImportError:
