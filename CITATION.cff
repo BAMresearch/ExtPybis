@@ -5,7 +5,7 @@ message: >-
   metadata from this file.
 type: software
 authors:
- - given-names: Cezary
+  - given-names: Cezary
     family-names: Kujath
     email: cezary.kujath@bam.de
     affiliation: Bundesanstalt für Materialforschung und -prüfung (BAM)
