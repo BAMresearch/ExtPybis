@@ -24,7 +24,7 @@ requirements:
     - python
     - pydantic
     - pandas
-    - pybis
+    - pybis ==1.36.1
 
 about:
   home: https://github.com/BAMresearch/ExtPybis
