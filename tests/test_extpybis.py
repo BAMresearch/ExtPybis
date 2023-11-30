@@ -87,7 +87,6 @@ def setup(pytestconfig):
     password_val = pytestconfig.getoption("--password")
     chosen_runner = pytestconfig.getoption("--url")
 
-    # o = Interbis(Constants.db_url.value)
     o = ExtOpenbis(chosen_runner, verify_certificates=False)
 
     if login_val != "no_cl_login" and password_val != "no_cl_password":
@@ -199,7 +198,11 @@ def setup(pytestconfig):
 )
 def test_get_metadata_import_template(setup, pytestconfig, expected_df_import, write, sheet_name, path):
     chosen_runner = pytestconfig.getoption("--url")
+    login_val = pytestconfig.getoption("--login")
+    password_val = pytestconfig.getoption("--password")
+
     o = ExtOpenbis(chosen_runner, verify_certificates=False)
+    o.connect_to_datastore(login_val, password_val)
 
     df = o.get_metadata_import_template(Constants.sample_type.value, write, sheet_name, path)
 
@@ -215,7 +218,11 @@ def test_get_metadata_import_template(setup, pytestconfig, expected_df_import, w
 @pytest.mark.login
 def test_import_props_from_template(setup, pytestconfig):
     chosen_runner = pytestconfig.getoption("--url")
+    login_val = pytestconfig.getoption("--login")
+    password_val = pytestconfig.getoption("--password")
+
     o = ExtOpenbis(chosen_runner, verify_certificates=False)
+    o.connect_to_datastore(login_val, password_val)
 
     read_sample_props = o.import_props_from_template(Filepaths.filled_out_sheet.value)
 
@@ -230,7 +237,11 @@ def test_import_props_from_template(setup, pytestconfig):
 @pytest.mark.login
 def test_get_sample_dict(setup, pytestconfig):
     chosen_runner = pytestconfig.getoption("--url")
+    login_val = pytestconfig.getoption("--login")
+    password_val = pytestconfig.getoption("--password")
+
     o = ExtOpenbis(chosen_runner, verify_certificates=False)
+    o.connect_to_datastore(login_val, password_val)
 
     sample_dict = o.get_sample_dict(Constants.testing_sample_identifier.value)
 
@@ -279,7 +290,11 @@ def test_get_sample_dict(setup, pytestconfig):
 @pytest.mark.parametrize("level", [("full"), ("space"), ("project"), ("collection")])
 def test_get_overview(setup, pytestconfig, level):
     chosen_runner = pytestconfig.getoption("--url")
+    login_val = pytestconfig.getoption("--login")
+    password_val = pytestconfig.getoption("--password")
+
     o = ExtOpenbis(chosen_runner, verify_certificates=False)
+    o.connect_to_datastore(login_val, password_val)
 
     overview = o.get_overview(
         level=level,
@@ -304,7 +319,11 @@ def test_get_overview(setup, pytestconfig, level):
 @pytest.mark.login
 def test_get_sample_type_properties(setup, pytestconfig):
     chosen_runner = pytestconfig.getoption("--url")
+    login_val = pytestconfig.getoption("--login")
+    password_val = pytestconfig.getoption("--password")
+
     o = ExtOpenbis(chosen_runner, verify_certificates=False)
+    o.connect_to_datastore(login_val, password_val)
 
     df = o.get_sample_type_properties(Constants.sample_type.value)
 
@@ -325,7 +344,11 @@ def test_get_sample_type_properties(setup, pytestconfig):
 @pytest.mark.login
 def test_create_sample_type(sample_code, sample_dict, pytestconfig):
     chosen_runner = pytestconfig.getoption("--url")
+    login_val = pytestconfig.getoption("--login")
+    password_val = pytestconfig.getoption("--password")
+
     o = ExtOpenbis(chosen_runner, verify_certificates=False)
+    o.connect_to_datastore(login_val, password_val)
 
     o.create_sample_type(sample_code=sample_code[0], sample_prefix=sample_code[1], sample_properties=sample_dict)
 
@@ -357,7 +380,11 @@ def test_create_sample_type(sample_code, sample_dict, pytestconfig):
 )
 def test_exists_in_datastore(setup, sample_name, output, pytestconfig):
     chosen_runner = pytestconfig.getoption("--url")
+    login_val = pytestconfig.getoption("--login")
+    password_val = pytestconfig.getoption("--password")
+
     o = ExtOpenbis(chosen_runner, verify_certificates=False)
+    o.connect_to_datastore(login_val, password_val)
 
     if sample_name == "make_two_of_me":
         for _ in range(2):
@@ -383,7 +410,11 @@ def test_exists_in_datastore(setup, sample_name, output, pytestconfig):
 @pytest.mark.login
 def test_get_sample_identifier(setup, pytestconfig):
     chosen_runner = pytestconfig.getoption("--url")
+    login_val = pytestconfig.getoption("--login")
+    password_val = pytestconfig.getoption("--password")
+
     o = ExtOpenbis(chosen_runner, verify_certificates=False)
+    o.connect_to_datastore(login_val, password_val)
 
     fetched_sample_identifier = o.get_sample_identifier(Constants.testing_sample_name.value)
 
@@ -400,7 +431,11 @@ def test_get_sample_identifier(setup, pytestconfig):
 )
 def test_get_collection_identifier(setup, pytestconfig, collection, should_pass):
     chosen_runner = pytestconfig.getoption("--url")
+    login_val = pytestconfig.getoption("--login")
+    password_val = pytestconfig.getoption("--password")
+
     o = ExtOpenbis(chosen_runner, verify_certificates=False)
+    o.connect_to_datastore(login_val, password_val)
 
     if should_pass:
         collection_identifier = o.get_collection_identifier(collection)
@@ -413,7 +448,11 @@ def test_get_collection_identifier(setup, pytestconfig, collection, should_pass)
 @pytest.mark.login
 def test_create_parent_hint(setup, pytestconfig):
     chosen_runner = pytestconfig.getoption("--url")
+    login_val = pytestconfig.getoption("--login")
+    password_val = pytestconfig.getoption("--password")
+
     o = ExtOpenbis(chosen_runner, verify_certificates=False)
+    o.connect_to_datastore(login_val, password_val)
 
     o.create_parent_hint(
         sample_type=Constants.sample_type.value, label="testing label", parent_type=Constants.sample_type.value
@@ -434,7 +473,11 @@ def test_create_parent_hint(setup, pytestconfig):
 @pytest.mark.login
 def test_set_parent_hint(setup, pytestconfig):
     chosen_runner = pytestconfig.getoption("--url")
+    login_val = pytestconfig.getoption("--login")
+    password_val = pytestconfig.getoption("--password")
+
     o = ExtOpenbis(chosen_runner, verify_certificates=False)
+    o.connect_to_datastore(login_val, password_val)
 
     comment_value = "comment_comment"
 
@@ -473,7 +516,11 @@ def test_set_parent_hint(setup, pytestconfig):
 )
 def test_generate_typechecker_passing(setup, pytestconfig, param_name, param_val):
     chosen_runner = pytestconfig.getoption("--url")
+    login_val = pytestconfig.getoption("--login")
+    password_val = pytestconfig.getoption("--password")
+
     o = ExtOpenbis(chosen_runner, verify_certificates=False)
+    o.connect_to_datastore(login_val, password_val)
 
     sample = o.new_sample(
         type=Constants.sample_type_typechecker_code.value,
@@ -515,7 +562,11 @@ def test_generate_typechecker_passing(setup, pytestconfig, param_name, param_val
 )
 def test_generate_typechecker_failing(setup, pytestconfig, param_name, param_val):
     chosen_runner = pytestconfig.getoption("--url")
+    login_val = pytestconfig.getoption("--login")
+    password_val = pytestconfig.getoption("--password")
+
     o = ExtOpenbis(chosen_runner, verify_certificates=False)
+    o.connect_to_datastore(login_val, password_val)
 
     sample_props = {param_name: param_val}
 
@@ -531,11 +582,19 @@ def test_generate_typechecker_failing(setup, pytestconfig, param_name, param_val
 @pytest.mark.login
 def test_upload_dataset(setup, pytestconfig):
     chosen_runner = pytestconfig.getoption("--url")
+    login_val = pytestconfig.getoption("--login")
+    password_val = pytestconfig.getoption("--password")
+
     o = ExtOpenbis(chosen_runner, verify_certificates=False)
+    o.connect_to_datastore(login_val, password_val)
 
     dataset_props = {"$name": "TEST_DATASET"}
     dataset = o.new_dataset(
-        type="RAW_DATA", collection=Constants.collection_id.value, sample=Constants.testing_sample_identifier.value
+        type="RAW_DATA",
+        collection=Constants.collection_id.value,
+        sample=Constants.testing_sample_identifier.value,
+        files=[Filepaths.dataset1.value],
+        props=dataset_props,
     )
 
     dataset_return_object = dataset.save()
