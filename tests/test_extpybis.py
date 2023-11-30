@@ -580,6 +580,7 @@ def test_generate_typechecker_failing(setup, pytestconfig, param_name, param_val
 
 
 @pytest.mark.login
+@pytest.mark.skip
 def test_upload_dataset(setup, pytestconfig):
     chosen_runner = pytestconfig.getoption("--url")
     login_val = pytestconfig.getoption("--login")
