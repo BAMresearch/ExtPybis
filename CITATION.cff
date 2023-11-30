@@ -14,7 +14,7 @@ authors:
     email: annika.robens-radermacher@bam.de
     affiliation: Bundesanstalt für Materialforschung und -prüfung (BAM)
     orcid: 'https://orcid.org/0000-0001-9653-6085'
-repository-code: 'https://github.com/BAMresearch/PGDrome'
+repository-code: 'https://github.com/BAMresearch/ExtPybis'
 abstract: >-
   ExtPybis is an extension of the Pybis library meant for improving data synchronisation with an openBIS datastore.
 keywords:
