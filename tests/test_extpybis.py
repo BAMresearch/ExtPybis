@@ -47,6 +47,7 @@ class Filepaths(Enum):
     init_settings: Path = Path(Path(__file__).parent.resolve(), "test_files", "init_settings.json")
     excel_output: Path = Path(Path(__file__).parent.resolve(), "test_files", "output.xlsx")
     filled_out_sheet: Path = Path(Path(__file__).parent.resolve(), "test_files", "filled_out_sheet.xlsx")
+    dataset1: Path = Path(Path(__file__).parent.resolve(), "test_files", "dataset1.txt")
 
 
 test_results = {"idx_parent_hint": None}
@@ -525,3 +526,22 @@ def test_generate_typechecker_failing(setup, pytestconfig, param_name, param_val
         Model(**sample_props)
     except ValidationError as err:
         print(err)
+
+
+@pytest.mark.login
+def test_upload_dataset(setup, pytestconfig):
+    chosen_runner = pytestconfig.getoption("--url")
+    o = ExtOpenbis(chosen_runner, verify_certificates=False)
+
+    dataset_props = {"$name": "TEST_DATASET"}
+    dataset = o.new_dataset(
+        type="RAW_DATA", collection=Constants.collection_id.value, sample=Constants.testing_sample_identifier.value
+    )
+
+    dataset_return_object = dataset.save()
+
+    test_sample = o.get_sample(Constants.testing_sample_identifier.value, withDataSetIds=True)
+
+    print(test_sample.get_datasets())
+
+    assert dataset_return_object.permId in test_sample.get_datasets()
